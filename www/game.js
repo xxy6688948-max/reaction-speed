@@ -1,4 +1,4 @@
-var API_BASE = window.API_BASE || '';
+var API_BASE = window.API_BASE || 'https://reaction-speed.onrender.com';
 
 const STATE = { IDLE: 0, WAITING: 1, READY: 2, CLICKED: 3, FINISHED: 4 };
 
