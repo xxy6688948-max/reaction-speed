@@ -223,26 +223,46 @@ function getLocalLeaderboard() {
   return JSON.parse(localStorage.getItem('rs_scores') || '[]').slice(0, 20);
 }
 
+function fetchWithTimeout(url, opts, timeoutMs = 30000) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), timeoutMs);
+  return fetch(url, { ...opts, signal: ctrl.signal }).finally(() => clearTimeout(timer));
+}
+
 submitBtn.addEventListener('click', async () => {
   const avg = parseInt(canvas.dataset.avg) || 0;
   if (avg === 0) return;
 
   submitBtn.disabled = true;
-  submitBtn.textContent = 'Submitting...';
+  submitBtn.textContent = 'Waking server...';
 
   try {
-    const res = await fetch(`${API_BASE}/api/score`, {
+    // First attempt: up to 40s (Render cold start can take 30-60s)
+    let res = await fetchWithTimeout(`${API_BASE}/api/score`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name: playerName, score: avg }),
-    });
+    }, 40000);
+
     if (res.ok) {
       submitBtn.textContent = 'Submitted!';
       loadLeaderboard();
       return;
     }
   } catch {
-    // Server unavailable, fall back to local storage
+    submitBtn.textContent = 'Retrying...';
+    try {
+      let res = await fetchWithTimeout(`${API_BASE}/api/score`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: playerName, score: avg }),
+      }, 30000);
+      if (res.ok) {
+        submitBtn.textContent = 'Submitted!';
+        loadLeaderboard();
+        return;
+      }
+    } catch { /* fall through */ }
   }
 
   saveScoreLocal(playerName, avg);
@@ -281,12 +301,18 @@ function escapeHtml(str) {
 
 async function loadLeaderboard() {
   try {
-    const res = await fetch(`${API_BASE}/api/leaderboard`);
+    const res = await fetchWithTimeout(`${API_BASE}/api/leaderboard`, {}, 40000);
     const data = await res.json();
     renderLeaderboard(data);
-  } catch {
-    renderLeaderboard(getLocalLeaderboard());
-  }
+    return;
+  } catch {}
+  try {
+    const res = await fetchWithTimeout(`${API_BASE}/api/leaderboard`, {}, 30000);
+    const data = await res.json();
+    renderLeaderboard(data);
+    return;
+  } catch {}
+  renderLeaderboard(getLocalLeaderboard());
 }
 
 window.addEventListener('resize', () => {
