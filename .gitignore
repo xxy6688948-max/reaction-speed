@@ -1,0 +1,13 @@
+node_modules/
+scores.db
+scores.db-shm
+scores.db-wal
+*.apk
+*.aab
+*.keystore
+android/app/build/
+android/build/
+android/.gradle/
+*.zip
+/tmp/
+.DS_Store

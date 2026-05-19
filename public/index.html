@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Reaction Speed Challenge</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1a1a2e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="ReactionSpeed">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>⚡ Reaction Speed</h1>
+      <p class="subtitle">Test your reflexes!</p>
+    </header>
+
+    <main>
+      <section class="setup" id="setup">
+        <label for="nameInput">Your name</label>
+        <input type="text" id="nameInput" placeholder="Enter nickname" maxlength="20" autocomplete="off">
+        <button id="startBtn">Start Game</button>
+      </section>
+
+      <section class="game hidden" id="game">
+        <div class="game-info">
+          <span class="round">Round <strong id="roundNum">1</strong>/5</span>
+          <span class="best">Best: <strong id="bestTime">--</strong>ms</span>
+        </div>
+        <canvas id="gameCanvas"></canvas>
+        <div class="game-overlay hidden" id="gameOverlay"></div>
+      </section>
+
+      <section class="result hidden" id="result">
+        <h2>Your Results</h2>
+        <div class="times" id="times"></div>
+        <div class="avg">Average: <strong id="avgTime">--</strong>ms</div>
+        <button id="submitBtn">Submit Score</button>
+        <button id="retryBtn" class="secondary">Play Again</button>
+      </section>
+
+      <section class="leaderboard" id="leaderboard">
+        <h2>🏆 Leaderboard</h2>
+        <table>
+          <thead>
+            <tr><th>#</th><th>Name</th><th>Time (ms)</th></tr>
+          </thead>
+          <tbody id="leaderboardBody"></tbody>
+        </table>
+        <p class="empty" id="leaderboardEmpty">No scores yet. Be the first!</p>
+      </section>
+    </main>
+
+    <footer>
+      <p>PWA • Install on your phone for offline play</p>
+    </footer>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>

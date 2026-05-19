@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Reaction Speed</string>
+    <string name="title_activity_main">Reaction Speed</string>
+    <string name="package_name">com.reactionspeed.challenge</string>
+    <string name="custom_url_scheme">com.reactionspeed.challenge</string>
+</resources>

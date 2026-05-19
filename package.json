@@ -1,0 +1,17 @@
+{
+  "name": "reaction-speed-challenge",
+  "version": "1.0.0",
+  "description": "A full-stack reaction speed game with leaderboard",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.3.4",
+    "@capacitor/cli": "^7.6.5",
+    "@capacitor/core": "^8.3.4",
+    "better-sqlite3": "^11.0.0",
+    "express": "^4.21.0"
+  }
+}

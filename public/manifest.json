@@ -1,0 +1,11 @@
+{
+  "name": "Reaction Speed Challenge",
+  "short_name": "ReactionSpeed",
+  "description": "Test your reflexes with this reaction speed game",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1a1a2e",
+  "theme_color": "#1a1a2e",
+  "icons": []
+}
